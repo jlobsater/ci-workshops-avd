@@ -107,6 +107,15 @@ local_users:
   sha512_password: $6$ffa0115a3c828b71$a5DruFy92GSRyxfUgbNWXDQggY0bVpIdhi548vF8x8NSn1WW/oChp4B5vXh0oPTQbzSgkBBbDYpQ/sAHfYmPI.
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcjsWg9xRX2/TfEqbXyB8TH4AEK1g4mcjtqc2gjDXIPeFqAfD/hv3N41IBeyvql1T0J1KSUw5nygY3ayCDl7mACTHxhKqF2QkKPtIl87IaUi4SfV4sllhdkMemXR5IbGcQyPO+quTFPJVmGuuEwGY4mY/N+L3+ADSEPoR5YHzuwWBJFFKTcvTPZ/EaqcBsseklS8WJwE9gdgBMJV+KfU4PS5Ljwj2goVJIqwml9CAbbI4URoH+w4SlLdyPdSbblMtJgeffRaIbIlIfktE2O2nRYztuDXY7ghE5q7Av1ztPRIvZdJM8msO/Fg6/QjIa5XBf9GiEkf7eCfQW0EHhE7Bt
     arista@tulsa-automationws-19-05204a3e-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
