@@ -3,6 +3,12 @@ aaa_authorization:
     default: local
 aaa_root:
   disabled: true
+banners:
+  motd: 'You shall not pass. Unless you are authorized. Then you shall pass.
+
+    EOF
+
+    '
 config_end: true
 daemon_terminattr:
   cvaddrs:
@@ -92,6 +98,15 @@ local_users:
   sha512_password: $6$8fd18a313d0fa908$C/dvcVX0FSjIyLlK7nbCg52qDTTgk6RjARfTTddBd6D5K8g3/3fkfpMq91Tg2L7Y9iu1.zITwLHyqTGYB7MN1/
   ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDcjsWg9xRX2/TfEqbXyB8TH4AEK1g4mcjtqc2gjDXIPeFqAfD/hv3N41IBeyvql1T0J1KSUw5nygY3ayCDl7mACTHxhKqF2QkKPtIl87IaUi4SfV4sllhdkMemXR5IbGcQyPO+quTFPJVmGuuEwGY4mY/N+L3+ADSEPoR5YHzuwWBJFFKTcvTPZ/EaqcBsseklS8WJwE9gdgBMJV+KfU4PS5Ljwj2goVJIqwml9CAbbI4URoH+w4SlLdyPdSbblMtJgeffRaIbIlIfktE2O2nRYztuDXY7ghE5q7Av1ztPRIvZdJM8msO/Fg6/QjIa5XBf9GiEkf7eCfQW0EHhE7Bt
     arista@tulsa-automationws-19-05204a3e-eos
+logging:
+  vrfs:
+  - name: default
+    source_interface: Management0
+    hosts:
+    - name: 10.200.0.108
+      protocol: udp
+    - name: 10.200.1.108
+      protocol: udp
 loopback_interfaces:
 - name: Loopback0
   description: ROUTER_ID
@@ -279,6 +294,26 @@ router_bgp:
       - 10020:10020
     redistribute_routes:
     - learned
+  - id: 30
+    metadata:
+      tenants:
+      - S1_FABRIC
+    rd: 10.250.1.6:10030
+    route_targets:
+      both:
+      - 10030:10030
+    redistribute_routes:
+    - learned
+  - id: 40
+    metadata:
+      tenants:
+      - S1_FABRIC
+    rd: 10.250.1.6:10040
+    route_targets:
+      both:
+      - 10040:10040
+    redistribute_routes:
+    - learned
   address_family_evpn:
     peer_groups:
     - name: EVPN-OVERLAY-PEERS
@@ -354,6 +389,22 @@ vlan_interfaces:
   metadata:
     tenants:
     - S1_FABRIC
+- name: Vlan30
+  description: Thirty
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.30.30.1/24
+  metadata:
+    tenants:
+    - S1_FABRIC
+- name: Vlan40
+  description: Forty
+  shutdown: false
+  vrf: OVERLAY
+  ip_address_virtual: 10.40.40.1/24
+  metadata:
+    tenants:
+    - S1_FABRIC
 - name: Vlan3009
   description: MLAG_L3_VRF_OVERLAY
   shutdown: false
@@ -394,6 +445,16 @@ vlans:
   metadata:
     tenants:
     - S1_FABRIC
+- id: 30
+  name: Thirty
+  metadata:
+    tenants:
+    - S1_FABRIC
+- id: 40
+  name: Forty
+  metadata:
+    tenants:
+    - S1_FABRIC
 - id: 3009
   name: MLAG_L3_VRF_OVERLAY
   trunk_groups:
@@ -421,6 +482,10 @@ vxlan_interface:
         vni: 10010
       - id: 20
         vni: 10020
+      - id: 30
+        vni: 10030
+      - id: 40
+        vni: 10040
       vrfs:
       - name: OVERLAY
         vni: 10
